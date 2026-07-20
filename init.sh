@@ -133,6 +133,10 @@ chmod +x ~/dotfiles/bin/git-credential-sports-global
 chmod +x ~/dotfiles/bin/git-credential-supergroup
 chmod +x ~/dotfiles/bin/gh
 
+# Link global gitignore
+echo "Linking .gitignore_global..."
+ln -sf ~/dotfiles/.gitignore_global ~/.gitignore_global
+
 # Link zshrc
 echo "Linking .zshrc..."
 ln -sf ~/dotfiles/.zshrc ~/.zshrc
