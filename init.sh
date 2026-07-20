@@ -131,6 +131,7 @@ ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
 chmod +x ~/dotfiles/bin/github-access-token
 chmod +x ~/dotfiles/bin/git-credential-sports-global
 chmod +x ~/dotfiles/bin/git-credential-supergroup
+chmod +x ~/dotfiles/bin/gh
 
 # Link zshrc
 echo "Linking .zshrc..."

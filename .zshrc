@@ -3,6 +3,11 @@ if [[ -f ~/.zsh_secrets ]]; then
   source ~/.zsh_secrets
 fi
 
+case ":$PATH:" in
+  *":$HOME/dotfiles/bin:"*) ;;
+  *) export PATH="$HOME/dotfiles/bin:$PATH" ;;
+esac
+
 # Map of GitHub org -> env var name holding the PAT to use
 # Add entries as: "OrgName" "ENV_VAR_NAME"
 typeset -A GH_ORG_TOKEN_MAP=(
@@ -24,17 +29,11 @@ gh_token_for_env_var() {
 
 # gh wrapper: automatically selects the correct PAT based on the current repo's org
 gh() {
-  local remote_url org token_var token
-  remote_url=$(git remote get-url origin 2>/dev/null || true)
-
-  for org token_var in "${(@kv)GH_ORG_TOKEN_MAP}"; do
-    if [[ "$remote_url" == *"github.com"*"/$org/"* || "$remote_url" == *"github.com"*":$org/"* ]]; then
-      if token="$(gh_token_for_env_var "$token_var")"; then
-        GH_TOKEN="$token" GITHUB_TOKEN="$token" command gh "$@"
-        return
-      fi
-    fi
-  done
+  local gh_wrapper="$HOME/dotfiles/bin/gh"
+  if [[ -x "$gh_wrapper" ]]; then
+    "$gh_wrapper" "$@"
+    return
+  fi
 
   command gh "$@"
 }
